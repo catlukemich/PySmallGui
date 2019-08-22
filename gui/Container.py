@@ -1,8 +1,10 @@
-# Basic container class that allows grouping of widgets and laying them out.
+from .Widget import *
 
-class Container(Gui):  
+# Basic container class that allows grouping of widgets and laying them out.
+class Container(Widget):  
  
   def __init__(self):
+    Widget.__init__(self)
     self.widgets = []
 
   def addWidget(self, widget):
@@ -15,3 +17,7 @@ class Container(Gui):
 
   def getWidgets(self):
     return self.widgets
+
+  def draw(self, surface):
+    for widget in self.widgets:
+      widget.draw(surface)

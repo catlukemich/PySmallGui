@@ -2,8 +2,12 @@ import math
 
 class Vector2D:
   def __init__(self, x = 0, y =0):
-    self.x = x
-    self.y = y
+    if isinstance(x, Vector2D):
+      self.x = x.x
+      self.y = x.y
+    else:
+      self.x = x
+      self.y = y
 
     
   def __sub__(self, other):

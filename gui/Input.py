@@ -36,7 +36,7 @@ class Input:
     
   
   def handleEvent(self, event):
-    if event.type == pygame.MOUSEBUTTONDOWN:
+    if event.type == pygame.MOUSEBUTTONDOWN and (event.button == 1 or event.button == 2 or event.button == 3) :
       for listener in self.mouse_listeners:
         consumed = listener.mouseButtonDown(event)
         if consumed: 
@@ -54,7 +54,8 @@ class Input:
         if consumed: 
           break
     
-    if event.type == pygame.MOUSEWHEEL:
+    # Mouse wheel event is when the event type is MOUSEBUTTONDOWN and the button is 4 or 5
+    if event.type == pygame.MOUSEBUTTONDOWN and (event.button == 4 or event.button == 5):
       for listener in self.mouse_listeners:
         consumed = listener.mouseWheel(event)
         if consumed: 
