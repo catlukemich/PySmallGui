@@ -1,5 +1,6 @@
 from .Vector2D import *
 from .Gui import *
+from .Bounds import *
 
 class Pad():
   def __init__(self, left = 0, right = 0, top = 0, bottom = 0):
@@ -10,23 +11,7 @@ class Pad():
 
   def __str__(self):
     return "Pad, left: %d, right: %d, top: %d, bottom: %d" % (self.left, self.right, self.top, self.bottom)
-  
-class Bounds():
-  def __init__(self, top_left, bottom_right):
-    self.top_left = top_left
-    self.bottom_right = bottom_right
 
-  def containsPoint(self, x, y = None):
-    point = None
-    if isinstance(x, Vector2D):
-      point = x
-    else: 
-      point = Vector2D(x, y)
-
-    return self.top_left < point and point < self.bottom_right
-
-  def __str__(self):
-    return "Bounds, top left: %s, bottom_right: %s" % (self.top_left, self.bottom_right)
 
 # Base class for all the widgets. 
 # A widget occupies an area that consists of content, padding around the content
@@ -48,6 +33,8 @@ class Widget():
   def setParent(self, parent):
     self.parent = parent
 
+  def getParent(self):
+    return self.parent
 
   # Calculate the absolute_position on the screen of a widget.
   def calcAbsolutePosition(self):
@@ -55,19 +42,26 @@ class Widget():
     absolute_position = Vector2D(self.position)
     while parent != None :
       absolute_position += parent.getPosition()
+
+      borders = parent.getBorders()
+      absolute_position.x += borders.left
+      absolute_position.y += borders.top
+
+      margins = parent.getMargins()
+      absolute_position.x += margins.left
+      absolute_position.y += margins.top
+
       parent = parent.parent
       
     return absolute_position
 
-  def setPosition(self, x, y):
-    self.position.x = x
-    self.position.y = y 
-
   def getPosition(self):
     return self.position
 
-  def getParent(self, widget):
-    return self.parent
+  
+  def setPosition(self, x, y):
+    self.position.x = x
+    self.position.y = y 
 
   def setDimensions(self, x, y):
     self.dimensions.x = x
@@ -181,6 +175,26 @@ class Widget():
     bottom_right = Vector2D(absolute_position.x + width, absolute_position.y + height)
     return Bounds(top_left, bottom_right)
 
+  def getContentSize(self):
+    return self.dimensions
+
+  def getPaddedSize(self):
+    width = self.paddings.left + self.dimensions.x + self.paddings.right
+    height = self.paddings.top + self.dimensions.y + self.paddings.bottom
+    return Vector2D(width, height)
+
+  def getBorderedSize(self):
+    padded_size = self.getPaddedSize()
+    width = self.borders.left + padded_size.x + self.borders.right
+    height = self.borders.top + padded_size.y + self.borders.bottom
+    return Vector2D(width, height)
+
+  def getWholeSize(self):
+    bordered_size = self.getBorderedSize()
+    width = self.margins.left + bordered_size.x + self.margins.right
+    height = self.margins.top + bordered_size.y + self.margins.bottom
+    return Vector2D(width, height)
+  
 
   def setBackgroundDrawer(self, background_drawer):
     self.background_drawer = background_drawer
@@ -197,6 +211,20 @@ class Widget():
   def onMouseOut(self, event):
     pass
 
+  def onMouseOver(self, event):
+    pass
+
+  def onKeyDown(self, event):
+    pass
+
+  def onMouseButtonDown(self, event):
+    pass
+
+  def onMouseButtonUp(self, event):
+    pass
+
+  def onClick(self, event):
+    pass
 
   # Draw the widget
   def draw(self, surface):

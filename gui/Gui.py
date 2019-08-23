@@ -1,12 +1,14 @@
 from .Container import *
 from .Input import *
 from .Vector2D import *
+from .Frame import *
 
 class Gui(Container, MouseListener, KeyboardListener):
   def __init__(self, input):
     Container.__init__(self)
     self.hover_widget = None
     self.focus_widget = None
+    self.active_widget = None
     
   def mouseMotion(self, event):
     old_hover_widget = self.hover_widget
@@ -16,9 +18,9 @@ class Gui(Container, MouseListener, KeyboardListener):
         old_hover_widget.onMouseOut(event)
       if new_hover_widget != None:
         new_hover_widget.onMouseOver(event)
-      print "Hover widget is: " + str(self.hover_widget)
+  
+      self.hover_widget = new_hover_widget
       
-
   def findHoverWidget(self, mouse_x, mouse_y, parent = None):
     if parent == None:
       widgets = self.getWidgets()
@@ -31,6 +33,8 @@ class Gui(Container, MouseListener, KeyboardListener):
         hover_widget = self.findHoverWidget(mouse_x, mouse_y, parent)
         if hover_widget == None:
           parent_area = parent.getBorderedArea()
+          if isinstance(widget, Frame):
+            parent_area = widget.getClippingRectangle()
           mouse = Vector2D(mouse_x, mouse_y)
           if parent_area.containsPoint(mouse):
             return parent
@@ -39,7 +43,8 @@ class Gui(Container, MouseListener, KeyboardListener):
       else:
         widget_area = widget.getBorderedArea()
         mouse = Vector2D(mouse_x, mouse_y)
-  
+        if isinstance(parent, Frame):
+          widget_area = widget_area.intersection(parent.getClippingRectangle())
         if widget_area.containsPoint(mouse):
           return widget
 
@@ -47,5 +52,24 @@ class Gui(Container, MouseListener, KeyboardListener):
 
   def mouseButtonDown(self, event):
     if self.hover_widget != None:
-      self.focus_widget = self.hover_widget
+      self.hover_widget.onMouseButtonDown(event)
+      
+    self.focus_widget = self.hover_widget
+    self.active_widget = self.hover_widget
+    print "New focus widget: " + str(self.focus_widget)
+    
+  def mouseButtonUp(self, event):
+    if self.hover_widget != None:
+      self.hover_widget.onMouseButtonUp(event)
+    if self.hover_widget != None and self.active_widget != None and self.hover_widget == self.active_widget:
+      self.active_widget.onClick(event)
+      print "Click on widget: " + str(self.active_widget)
+
+  def keyDown(self, event):
+    if self.focus_widget != None:
+      print "Key down on widget: " + str(self.focus_widget)
+      self.focus_widget.onKeyDown(event)
+      return True
+    else: 
+      return False
 
