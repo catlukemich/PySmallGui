@@ -84,6 +84,18 @@ class HorizontalLayout(Layout):
       bounds_offset_top = 0
     elif self.align == Align.BOTTOM:
       bounds_offset_top = parent_size.y - bounds_height
+    elif self.align == Align.TOP_LEFT:
+      bounds_offset_left = 0
+      bounds_offset_top = 0
+    elif self.align == Align.TOP_RIGHT:
+      bounds_offset_left = parent_size.x - bounds_width
+      bounds_offset_top = 0
+    elif self.align == Align.BOTTOM_LEFT:
+      bounds_offset_left = 0
+      bounds_offset_top = parent_size.y - bounds_height
+    elif self.align == Align.BOTTOM_RIGHT:
+      bounds_offset_left = parent_size.x - bounds_width
+      bounds_offset_top = parent_size.y - bounds_height
 
     # Place the widgets in rows:
     current_row = 0

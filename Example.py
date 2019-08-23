@@ -53,7 +53,7 @@ def main():
   frame.setBorders(Pad(1,1,1,1))
   frame.setDimensions(219,200)
   #frame.setLayout(GridLayout(3,4))
-  frame.setLayout(HorizontalLayout(Align.LEFT))
+  frame.setLayout(GridLayout(2, 4, Align.LEFT))
   gui.addWidget(frame)
 
   for i in range(0,8):
