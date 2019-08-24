@@ -1,12 +1,10 @@
 from .Layout import *
 from .Vector2D import *
 
-import pprint
-
-
-class HorizontalLayout(Layout):
-  def __init__(self, align = Align.CENTER):
+class VerticalLayout(Layout):
+  def __init__(self, align = Align.CENTER): 
     self.align = align
+
 
   def layoutWidgets(self, parent):
     widgets = parent.getWidgets()
@@ -15,14 +13,14 @@ class HorizontalLayout(Layout):
     
     # Calculate number of rows:
     
-    widgets_in_rows = [[]]
-    rows_heights = []
-    rows_count = 1
+    widgets_in_cols = [[]]
+    cols_widths = []
+    cols_count = 1
 
 
     # Find out which widgets belong to which rows:
-    current_end_x = 0
-    current_row = 0 
+    current_end_y = 0
+    current_col = 0 
     for i in range(0, len(widgets)):
       widget = widgets[i]
       next = None
@@ -36,39 +34,39 @@ class HorizontalLayout(Layout):
       else:   
         next_size = Vector2D()
 
-      current_end_x += widget_size.x
-      widgets_in_rows[current_row].append(widget)
+      current_end_y += widget_size.y
+      widgets_in_cols[current_col].append(widget)
 
-      if current_end_x + next_size.x > parent_size.x:
-        widgets_in_rows.append([])
-        current_end_x = 0
-        current_row += 1
-        rows_count += 1
+      if current_end_y + next_size.y > parent_size.y:
+        widgets_in_cols.append([])
+        current_end_y = 0
+        current_col += 1
+        cols_count += 1
       
 
     # Calculate each row height:
-    for row in range(0, rows_count):
-      max_height = 0
-      for widget in widgets_in_rows[row]:
-        height = widget.getWholeHeight()
-        if height > max_height: max_height = height
-      rows_heights.append(max_height)
+    for col in range(0, cols_count):
+      max_width = 0
+      for widget in widgets_in_cols[col]:
+        width = widget.getWholeWidth()
+        if width > max_width: max_width = width
+      cols_widths.append(max_width)
 
 
     # Find the bounds of the layed out widgets:
     bounds_width  = 0
     bounds_height = 0
-    rows_widths = []
-    for widgets_array in widgets_in_rows:
-      width = 0
+    cols_heights = []
+    for widgets_array in widgets_in_cols:
+      height = 0
       for widget in widgets_array:
         widget_size = widget.getWholeSize()
-        width += widget_size.x
-      rows_widths.append(width)
-    bounds_width = max(rows_widths)
+        height += widget_size.y
+      cols_heights.append(height)
+    bounds_height = max(cols_heights)
     
-    for height in rows_heights:
-      bounds_height += height
+    for width in cols_widths:
+      bounds_width += width
 
 
     # Calculate the top bounds offset and left bounds offset:
@@ -98,21 +96,23 @@ class HorizontalLayout(Layout):
       bounds_offset_top = parent_size.y - bounds_height
 
     # Place the widgets in rows:
-    current_row = 0
-    for widgets_array in widgets_in_rows:
-      current_y = 0
-      for i in range(0, current_row):
-         current_y += rows_heights[i]
-      
-      row_height = rows_heights[current_row]
-
+    current_col = 0
+    for widgets_array in widgets_in_cols:
       current_x = 0
+      for i in range(0, current_col):
+         current_x += cols_widths[i]
+      
+      col_width = cols_widths[current_col]
+
+      current_y = 0
       for widget in widgets_array:
         
         widget_size = widget.getWholeSize()
-        widget_top = (row_height - widget_size.y) / 2 + current_y + bounds_offset_top
-        widget.setPosition(current_x + bounds_offset_left, widget_top)
-        current_x += widget_size.x
+        widget_left = (col_width - widget_size.x) / 2 + current_x + bounds_offset_left
+        widget.setPosition(widget_left, current_y + bounds_offset_top)
+        current_y += widget_size.y
         
-      current_row += 1
+      current_col += 1
+
+
 

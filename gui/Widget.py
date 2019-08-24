@@ -1,17 +1,8 @@
 from .Vector2D import *
 from .Gui import *
 from .Bounds import *
-
-class Pad():
-  def __init__(self, left = 0, right = 0, top = 0, bottom = 0):
-    self.left   = left
-    self.right  = right
-    self.top    = top
-    self.bottom = bottom
-
-  def __str__(self):
-    return "Pad, left: %d, right: %d, top: %d, bottom: %d" % (self.left, self.right, self.top, self.bottom)
-
+from .Pad import Pad
+from .Pad import EqualPad
 
 # Base class for all the widgets. 
 # A widget occupies an area that consists of content, padding around the content
@@ -25,9 +16,9 @@ class Widget():
     self.border_drawer = None
 
     self.position   = Vector2D() # Where the top right corner of the widget is relative to its parent
-    self.dimensions = Vector2D() # The inner size of the widget
-    self.paddings = Pad() # The space around the content
-    self.borders  = Pad() # Border around content with padding
+    self.dimensions = Vector2D(20,20) # The inner size of the widget
+    self.paddings = Pad(0) # The space around the content
+    self.borders  = EqualPad(1) # Border around content with padding
     self.margins  = Pad() # The margin around the content with padding and borders
 
   def setParent(self, parent):
@@ -50,6 +41,10 @@ class Widget():
       margins = parent.getMargins()
       absolute_position.x += margins.left
       absolute_position.y += margins.top
+
+      paddings = parent.getPaddings()
+      absolute_position.x += paddings.left
+      absolute_position.y += paddings.right
 
       parent = parent.parent
       

@@ -7,7 +7,7 @@ from .AbsoluteLayout    import *
 from .Widget            import *
 
 class Frame(Container):
-  def __init__(self, background_color = Color(240,240,240), border_color = Color(150,150,150)):
+  def __init__(self):
     Container.__init__(self)
 
     self.layout = AbsoluteLayout()
@@ -16,8 +16,6 @@ class Frame(Container):
     self.setBackgroundDrawer(BackgroundDrawer())
     self.setBorderDrawer(BorderDrawer())
 
-    self.background_color = background_color
-    self.border_color = border_color
 
   def setParent(self, parent):
     Widget.setParent(self, parent)
@@ -32,12 +30,24 @@ class Frame(Container):
     Widget.setPosition(self, x, y)
     self.recalculateClippingRectangle()
 
+  def setPaddings(self, pad):
+    Widget.setPaddings(self, pad)
+    self.recalculateClippingRectangle()
+
+  def setMargins(self, pad):
+    Widget.setMargins(self, pad)
+    self.recalculateClippingRectangle()
+
+  def setBorders(self, pad):
+    Widget.setBorders(self, pad)
+    self.recalculateClippingRectangle()
+
   def recalculateClippingRectangle(self):
-    clipping_rectangle = self.getPaddedArea()
+    clipping_rectangle = self.getBorderedArea()
     parent = self.getParent()
     while parent != None: 
       if isinstance(parent, Frame):
-        parent_rect = parent.getPaddedArea()
+        parent_rect = parent.getBorderedArea()
         clipping_rectangle = parent_rect.intersection(clipping_rectangle)
       
       parent = parent.getParent()
@@ -55,20 +65,15 @@ class Frame(Container):
     Container.addWidget(self, widget)
     self.layout.layoutWidgets(self)
 
-  def removWidget(self, widget):
-    Container.removWidget(self, widget)
+  def removeWidget(self, widget):
+    Container.removeWidget(self, widget)
     self.layout.layoutWidgets(self)
 
   def draw(self, surface):
     # First draw the background and border:
     bg_drawer = self.getBackgroundDrawer()
-    bg_drawer.drawBackground(self, surface, self.background_color)
+    bg_drawer.drawBackground(self, surface)
     
-    border_drawer = self.getBorderDrawer()
-    border_drawer.drawBorder(self, surface, self.border_color)
-      
-    
-  
     # Set the clipping rectangle so child widgets wont draw outside the bounds:
     clip_rect = self.clipping_rectangle
     clipping_width  = clip_rect.bottom_right.x - clip_rect.top_left.x
@@ -77,9 +82,12 @@ class Frame(Container):
       self.clipping_rectangle.top_left.x, self.clipping_rectangle.top_left.y,
       clipping_width, clipping_height)
     
-  
     surface.set_clip(pygame_clip_rect)
-   # print "Pygame clip rect is: " + str(surface.get_clip())
+    # print "Pygame clip rect is: " + str(surface.get_clip())
     Container.draw(self, surface)
+    border_drawer = self.getBorderDrawer()
+    border_drawer.drawBorder(self, surface)
+      
     surface.set_clip(None)
+    
     

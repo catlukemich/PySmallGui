@@ -63,7 +63,7 @@ class GridLayout():
       bounds_height += row_max_height
     
     # Calculate the top bounds offset and left bounds offset:
-    parent_size = parent.getPaddedSize()
+    parent_size = parent.getContentSize()
     bounds_offset_left = (parent_size.x - bounds_width) / 2
     bounds_offset_top = (parent_size.y - bounds_height) / 2
     if self.align == Align.CENTER:

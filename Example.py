@@ -1,29 +1,28 @@
 import random
 import pygame
-from gui.Input      import *
-from gui.Gui        import *
-from gui.Box        import *
-from gui.Color      import *
-from gui.Widget     import *
-from gui.Container  import *
-from gui.Frame      import *
-from gui.GridLayout import *
-from gui.HorizontalLayout import *
-from gui.Layout      import *
+
+import gui
+
+from gui.Pad import Pad
+from gui.Pad import EqualPad
+from gui.Layout import Align
 
 def main():
 
   pygame.init()
   screen = pygame.display.set_mode((800,600))
 
-  input = Input()
-  
-  gui = Gui(input)
-  
-  input.addMouseListener(gui)
-  input.addKeyboardListener(gui)
 
-  box = Box(Color(0,0,0),Color(255,0,0))
+  input = gui.Input()
+  
+  the_gui = gui.Gui(input)
+  
+  input.addMouseListener(the_gui)
+  input.addKeyboardListener(the_gui)
+  
+
+
+  box = gui.Box()
   box.setPosition(0,0)
   box.setDimensions(10,10)
   
@@ -32,9 +31,10 @@ def main():
   box.setMargins(Pad(9, 10, 11, 12))
   
   
-  container = Container()
-  gui.addWidget(container)
+  container = gui.Container()
+  the_gui.addWidget(container)
   container.addWidget(box)
+
 
   content_area = box.getContentArea()
   padded_area = box.getPaddedArea()
@@ -47,22 +47,26 @@ def main():
   print "Whole area: " + str(whole_area) 
 
   # Testing parenting:
-  frame = Frame()
+  frame = gui.Frame()
   frame.setPosition(100,0)
-  frame.setMargins(Pad(4,4,4,4))
-  frame.setBorders(Pad(1,1,1,1))
-  frame.setDimensions(219,200)
-  #frame.setLayout(GridLayout(3,4))
-  frame.setLayout(GridLayout(2, 4, Align.LEFT))
-  gui.addWidget(frame)
+  frame.setMargins(EqualPad(4))
+  frame.setBorders(EqualPad(1))
+  frame.setPaddings(Pad(2,2,20,2))
+  frame.setDimensions(200,200)
+  #frame.setLayout(gui.GridLayout(3,4))
+  frame.setLayout(gui.GridLayout(2, 4, Align.TOP))
+  #frame.setLayout(gui.VerticalLayout(Align.RIGHT))
+  the_gui.addWidget(frame)
+  
+ 
 
   for i in range(0,8):
     
-    box2 = Box()
+    box2 = gui.Box()
     box2.setPosition(0,0)
     #size = 10 + random.randint(0,4)
     
-    width = 20
+    width = i * 5
     height = i * 5
     
     box2.setDimensions(width, height)
@@ -70,28 +74,33 @@ def main():
     box2.setMargins(Pad(5, 5, 5 , 5))
     frame.addWidget(box2)
 
+
+ 
+
   # Testing clipping:
-  frame = Frame()
+  frame = gui.Frame()
   frame.setPosition(340,0)
+  
   frame.setMargins(Pad(4,4,4,4))
   frame.setBorders(Pad(1,1,1,1))
   frame.setDimensions(80,200)
-  gui.addWidget(frame)
+  frame.setPaddings(EqualPad(15))
+  the_gui.addWidget(frame)
 
-  inner_frame = Frame()
+  inner_frame = gui.Frame()
   inner_frame.setPosition(40,0)
   inner_frame.setMargins(Pad(4,4,4,4))
   inner_frame.setBorders(Pad(1,1,1,1))
   inner_frame.setDimensions(180,100)
   frame.addWidget(inner_frame)
   
-  inner_frame.setLayout(GridLayout(3,4))
+  inner_frame.setLayout(gui.GridLayout(3,5, Align.LEFT))
 
   for i in range(0,12):
     col = i % 3
     row = i / 3
     
-    box2 = Box()
+    box2 = gui.Box()
     box2.setPosition(0,0)
     #size = 10 + random.randint(0,4)
     
@@ -103,6 +112,23 @@ def main():
     box2.setMargins(Pad(5, 5, 5 , 5))
     inner_frame.addWidget(box2)
 
+  img = gui.loadImage("res/aircraft.png")
+  image_widget = gui.Image(img)
+  image_widget.setPosition(0, 0)
+  image_widget.setBorders(Pad(3,3,3,3))
+  image_widget.setDimensions(100,100)
+  inner_frame.addWidget(image_widget)
+
+
+  # Testing ImageButton
+  img_default = gui.loadImage("res/truck.png")
+  img_pressed = gui.loadImage("res/truck_bnw.png")
+  img_button = gui.ImageButton(img_default, img_pressed)
+  img_button.setPosition(20, 200)
+  img_button.setDimensions(30,30)
+  the_gui.addWidget(img_button)
+  
+
   run = True
   while (run):
     for event in pygame.event.get():
@@ -112,7 +138,7 @@ def main():
     
 
     screen.fill((255,255,255))
-    gui.draw(screen)
+    the_gui.draw(screen)
     pygame.display.flip()
 
 

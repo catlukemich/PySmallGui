@@ -1,8 +1,13 @@
 from .Vector2D import *
+from .Color import *
 import pygame
 
 class BorderDrawer():
-  def drawBorder(self, widget, surface, color):
+
+  def __init__(self, color = Color(150,150,150)):
+    self.color = color
+
+  def drawBorder(self, widget, surface):
     absolute_position = widget.calcAbsolutePosition()
 
     bordered_area = widget.getBorderedArea()
@@ -15,7 +20,8 @@ class BorderDrawer():
 
 
     # Drawing borders:
-    
+    pygame_color = pygame.Color(self.color.red, self.color.green, self.color.blue, self.color.alpha)
+
     # Left border:
     border_left_top_left = outer_top_left
     border_left_bottom_right = Vector2D(inner_top_left.x , outer_bottom_right.y)
@@ -27,7 +33,6 @@ class BorderDrawer():
       border_left_top_left.x, border_left_top_left.y, 
       border_left_width, border_left_height)
 
-    pygame_color = pygame.Color(color.red, color.green, color.blue, color.alpha)
     if not(border_left_width == 0 or border_left_height == 0):
       pygame.draw.rect(surface, pygame_color, border_left_rect )
 

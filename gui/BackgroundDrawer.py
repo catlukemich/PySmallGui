@@ -1,9 +1,14 @@
 from .Vector2D import *
+from .Color import *
 import pygame
 
 # A base background drawer class. Draws a simple solid background.
 class BackgroundDrawer():
-  def drawBackground(self, widget, surface, color):
+
+  def __init__(self, color = Color(240,240,240)):
+    self.color = color
+
+  def drawBackground(self, widget, surface):
     absolute_position = widget.calcAbsolutePosition()
 
     margin = widget.getMargins()
@@ -24,5 +29,5 @@ class BackgroundDrawer():
 
     background_rect = pygame.Rect(background_top_left.x, background_top_left.y, draw_width, draw_height)
     
-    pygame_color = pygame.Color(color.red, color.green, color.blue, color.alpha)
+    pygame_color = pygame.Color(self.color.red, self.color.green, self.color.blue, self.color.alpha)
     pygame.draw.rect(surface, pygame_color, background_rect )

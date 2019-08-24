@@ -1,3 +1,4 @@
+from .Widget import *
 from .Container import *
 from .Input import *
 from .Vector2D import *
@@ -26,7 +27,7 @@ class Gui(Container, MouseListener, KeyboardListener):
       widgets = self.getWidgets()
     else:
       widgets = parent.getWidgets()
-    
+
     for widget in widgets:
       if isinstance(widget, Container):
         parent = widget
@@ -43,10 +44,13 @@ class Gui(Container, MouseListener, KeyboardListener):
       else:
         widget_area = widget.getBorderedArea()
         mouse = Vector2D(mouse_x, mouse_y)
-        if isinstance(parent, Frame):
+        parent = widget.getParent()
+  
+        if parent != None and isinstance(parent, Frame):
           widget_area = widget_area.intersection(parent.getClippingRectangle())
         if widget_area.containsPoint(mouse):
           return widget
+        
 
     return None
 
