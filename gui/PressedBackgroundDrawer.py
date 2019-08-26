@@ -8,7 +8,6 @@ class PressedBackgroundDrawer(BackgroundDrawer):
     self.shadow_color = shadow_color
 
   def drawBackground(self, widget, surface):
-    print "Drawing pressed"
     BackgroundDrawer.drawBackground(self, widget, surface)
     padded_area = widget.getPaddedArea()
     pygame_color = pygame.Color(self.shadow_color.red, self.shadow_color.green, self.shadow_color.blue, self.shadow_color.alpha)

@@ -3,6 +3,7 @@ from .Gui import *
 from .Bounds import *
 from .Pad import Pad
 from .Pad import EqualPad
+from .Alignment import Align
 
 # Base class for all the widgets. 
 # A widget occupies an area that consists of content, padding around the content
@@ -20,7 +21,9 @@ class Widget():
     self.paddings = Pad(0) # The space around the content
     self.borders  = EqualPad(1) # Border around content with padding
     self.margins  = Pad() # The margin around the content with padding and borders
-
+    
+    self.align = Align.CENTER
+    
   def setParent(self, parent):
     self.parent = parent
 
@@ -58,34 +61,67 @@ class Widget():
     self.position.x = x
     self.position.y = y 
 
-  def setDimensions(self, x, y):
-    self.dimensions.x = x
-    self.dimensions.y = y
+  def setDimensions(self, x, y = None):
+    if isinstance(x, Vector2D):
+      self.dimensions = x
+    else:
+      self.dimensions.x = x
+      self.dimensions.y = y
+    from .Frame import Frame
+    if self.parent != None and isinstance(self.parent, Frame):
+      self.parent.layoutWidgets()
 
   def getDimensions(self):
     return self.dimensions
 
   def setPaddings(self, paddings):
     self.paddings = paddings
+    from .Frame import Frame
+    if self.parent != None and isinstance(self.parent, Frame):
+      self.parent.layoutWidgets()
 
   def getPaddings(self):
     return self.paddings
 
   def setBorders(self, borders):
     self.borders = borders
+    from .Frame import Frame
+    if self.parent != None and isinstance(self.parent, Frame):
+      self.parent.layoutWidgets()
   
   def getBorders(self):
     return self.borders
 
   def setMargins(self, margins):
     self.margins = margins
+    from .Frame import Frame
+    if self.parent != None and isinstance(self.parent, Frame):
+      self.parent.layoutWidgets()
 
   def getMargins(self):
     return self.margins
   
+  def setWidth(self, width):
+    dims = Vector2D(self.getDimensions())
+    dims.x = width
+    self.setDimensions(dims)
 
   def getWidth(self):
     return self.dimensions.x
+
+  def setHeight(self, height):
+    dims = Vector2D(self.getDimensions())
+    dims.y = height
+    self.setDimensions(dims)
+    
+  def getHeight(self):
+    return self.dimensions.y
+
+  def setAlign(self, align):
+    self.align = align
+
+  def getAlign(self):
+    return self.align
 
   def getPaddedWidth(self):
     return self.paddings.left + self.dimensions.x + self.paddings.right
@@ -100,8 +136,6 @@ class Widget():
     whole_width = self.margins.left + bordered_width + self.margins.right
     return whole_width
 
-  def getHeight(self):
-    return self.dimensions.y
 
   def getPaddedHeight(self):
     return self.paddings.top + self.dimensions.y + self.paddings.bottom
@@ -219,6 +253,12 @@ class Widget():
     pass
 
   def onClick(self, event):
+    pass
+
+  def onFocusGain(self, event):
+    pass
+
+  def onFocusLost(self, event):
     pass
 
   # Draw the widget

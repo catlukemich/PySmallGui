@@ -31,9 +31,8 @@ def loadFont(fnt_path, atlas_path):
   for line in range(start_line, len(lines)):
     line_text = lines[line]
     if not line_text.startswith("char"): break
+    
     line_columns = line_text.split()
-  
-    print line_columns
     id_column = line_columns[1].strip()
     x_column = line_columns[2].strip()
     y_column = line_columns[3].strip()

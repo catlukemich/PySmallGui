@@ -10,13 +10,16 @@ from .HorizontalLayout import HorizontalLayout
 from .Image import Image
 from .Input import Input
 from .Layout import Layout
-from .Layout import Align
+from .Alignment import Align, Aligner
 from utils import *
 from .Vector2D import Vector2D
 from .VerticalLayout import VerticalLayout
 from .Box import Box
 from .Container import Container
 from .Frame import Frame
-from .Widget import Widget
 from .ImageButton import ImageButton
 from .Label import Label
+from .Widget import Widget
+from .TextButton import TextButton
+from .TextInput import TextInput
+from .Text import Text

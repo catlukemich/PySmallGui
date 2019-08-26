@@ -15,10 +15,10 @@ class Box(Widget):
 
     
   def draw(self, surface):
-
-    #print "Drawing box"
     bg_drawer = self.getBackgroundDrawer()
-    bg_drawer.drawBackground(self, surface)
+    if bg_drawer != None:
+      bg_drawer.drawBackground(self, surface)
     
     border_drawer = self.getBorderDrawer()
-    border_drawer.drawBorder(self, surface)
+    if border_drawer != None:
+      border_drawer.drawBorder(self, surface)

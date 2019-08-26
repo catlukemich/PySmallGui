@@ -14,8 +14,8 @@ class ImageButton(Image):
     self.pressed_transformed_image = pressed_image
     self.transformImage()
     
-    self.default_background_drawer = self.getBackgroundDrawer()
-    self.default_border_drawer = self.getBorderDrawer()
+    self.released_background_drawer = self.getBackgroundDrawer()
+    self.released_border_drawer = self.getBorderDrawer()
 
     self.pressed_background_drawer = PressedBackgroundDrawer()
     self.pressed_border_drawer = PressedBorderDrawer()
@@ -39,6 +39,6 @@ class ImageButton(Image):
 
   def onMouseButtonUp(self, event): 
     self.setImage(self.default_image)
-    self.setBackgroundDrawer(self.default_background_drawer)
-    self.setBorderDrawer(self.default_border_drawer)
+    self.setBackgroundDrawer(self.released_background_drawer)
+    self.setBorderDrawer(self.released_border_drawer)
 

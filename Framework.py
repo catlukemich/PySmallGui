@@ -5,7 +5,7 @@ import gui
 
 from gui.Pad import Pad
 from gui.Pad import EqualPad
-from gui.Layout import Align
+from gui.Alignment import Align
 
 
 class Framework():

@@ -1,4 +1,5 @@
-from Layout import *
+from .Layout import *
+from .Alignment import *
 
 class GridLayout():
   def __init__(self, cols, rows, align = Align.CENTER):
@@ -8,9 +9,6 @@ class GridLayout():
 
   def layoutWidgets(self, parent):
     widgets = parent.getWidgets()
-
-    widgets_widths  = []
-    widgets_heights = []
 
     columns_widths  = []
     for x in range(0, self.cols): columns_widths.append([])
@@ -63,32 +61,16 @@ class GridLayout():
       bounds_height += row_max_height
     
     # Calculate the top bounds offset and left bounds offset:
-    parent_size = parent.getContentSize()
-    bounds_offset_left = (parent_size.x - bounds_width) / 2
-    bounds_offset_top = (parent_size.y - bounds_height) / 2
-    if self.align == Align.CENTER:
-      pass
-    elif self.align == Align.LEFT:
-      bounds_offset_left = 0
-    elif self.align == Align.RIGHT:
-      bounds_offset_left = parent_size.x - bounds_width
-    elif self.align == Align.TOP:
-      bounds_offset_top = 0
-    elif self.align == Align.BOTTOM:
-      bounds_offset_top = parent_size.y - bounds_height
-    elif self.align == Align.TOP_LEFT:
-      bounds_offset_left = 0
-      bounds_offset_top = 0
-    elif self.align == Align.TOP_RIGHT:
-      bounds_offset_left = parent_size.x - bounds_width
-      bounds_offset_top = 0
-    elif self.align == Align.BOTTOM_LEFT:
-      bounds_offset_left = 0
-      bounds_offset_top = parent_size.y - bounds_height
-    elif self.align == Align.BOTTOM_RIGHT:
-      bounds_offset_left = parent_size.x - bounds_width
-      bounds_offset_top = parent_size.y - bounds_height
-
+    bounds_parent = parent.getDimensions()
+    offset_vector = Aligner.getAlignmentPosition(
+      bounds_parent.x, bounds_parent.y, 
+      bounds_width, bounds_height,
+      self.align
+    )
+  
+    bounds_offset_left = offset_vector.x
+    bounds_offset_top = offset_vector.y
+    
 
     # Place the widgets
     i = 0
@@ -115,3 +97,77 @@ class GridLayout():
       widget.setPosition(offset_left, offset_top)
 
       i += 1
+
+
+  def getWidth(self, parent):
+    widgets = parent.getWidgets()
+
+    columns_widths  = []
+    for x in range(0, self.cols): columns_widths.append([])
+    
+    columns_max_widths  = []
+    
+    # Populate the columns widths and columns heights arrays:
+    i = 0
+    for widget in widgets:
+      size = widget.getWholeSize()
+      
+      widget_column = i % self.cols
+      columns_widths[widget_column].append(size.x)
+
+      i += 1
+
+    # Calculate max columns widths and heights:
+    for i in range(0, self.cols):
+      max_width = 0
+      widths = columns_widths[i]
+      for width in widths:
+        if width > max_width: max_width = width
+
+      columns_max_widths.append(max_width)
+    
+    total_width = 0
+    for width in columns_max_widths:
+      total_width += width
+
+    return total_width
+
+
+  def getHeight(self, parent):
+    widgets = parent.getWidgets()
+
+   
+    rows_heights = []
+    for x in range(0, self.rows): rows_heights.append([])
+
+    rows_max_heights    = []
+
+
+    # Populate the columns widths and columns heights arrays:
+    i = 0
+    for widget in widgets:
+      size = widget.getWholeSize()
+      
+     
+      widget_row = i / self.cols
+      rows_heights[widget_row].append(size.y)
+
+      i += 1
+
+
+    # Calculate max rows heights:
+  
+    
+    for i in range(0, self.rows):
+      max_height = 0
+      heights = rows_heights[i]
+      for height in heights:
+        if height > max_height: max_width = height
+
+      rows_max_heights.append(max_width)
+
+    total_height = 0
+    for height in rows_max_heights:
+      total_height += height
+
+    return total_height

@@ -5,7 +5,7 @@ import gui
 
 from gui.Pad import Pad
 from gui.Pad import EqualPad
-from gui.Layout import Align
+from gui.Alignment import Align
 
 def main():
 
@@ -48,31 +48,31 @@ def main():
 
   # Testing parenting:
   frame = gui.Frame()
-  frame.setPosition(100,0)
-  frame.setMargins(EqualPad(4))
+  frame.setPosition(0,0)
+  #frame.setMargins(EqualPad(4))
   frame.setBorders(EqualPad(1))
   frame.setPaddings(Pad(2,2,20,2))
   frame.setDimensions(200,200)
   #frame.setLayout(gui.GridLayout(3,4))
-  frame.setLayout(gui.GridLayout(2, 4, Align.TOP))
-  #frame.setLayout(gui.VerticalLayout(Align.RIGHT))
+  #frame.setLayout(gui.GridLayout(2, 4, Align.TOP))
+  frame.setLayout(gui.VerticalLayout(Align.TOP_LEFT))
   the_gui.addWidget(frame)
   
  
 
   for i in range(0,8):
     
-    box2 = gui.Box()
-    box2.setPosition(0,0)
+    box = gui.Box()
+    box.setPosition(0,0)
     #size = 10 + random.randint(0,4)
     
     width = i * 5
     height = i * 5
     
-    box2.setDimensions(width, height)
-    box2.setBorders(Pad(1, 1, 1, 1))
-    box2.setMargins(Pad(5, 5, 5 , 5))
-    frame.addWidget(box2)
+    box.setBorders(Pad(1, 1, 1, 1))
+    box.setMargins(Pad(5, 5, 5 , 5))
+    frame.addWidget(box)
+    box.setDimensions(width, height)
 
 
  
@@ -127,6 +127,15 @@ def main():
   img_button.setPosition(20, 200)
   img_button.setDimensions(30,30)
   the_gui.addWidget(img_button)
+  
+  # Testing elements alignment:
+
+  frame = gui.Frame()
+  frame.setDimensions(200,200)
+  frame.setLayout(gui.GridLayout(2,6))
+  frame.setPosition(0,300)
+  the_gui.addWidget(frame)
+
   
 
   run = True

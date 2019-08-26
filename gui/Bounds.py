@@ -31,12 +31,3 @@ class Bounds():
   def __str__(self):
     return "Bounds, top left: %s, bottom_right: %s" % (self.top_left, self.bottom_right)
 
-
-
-if __name__ == "__main__":
-  bounds1 = Bounds(Vector2D(0,0), Vector2D(20, 10))
-  bounds2 = Bounds(Vector2D(10, 0), Vector2D(30, 10))
-
-  intersection = bounds1.intersection(bounds2)
-
-  print intersection

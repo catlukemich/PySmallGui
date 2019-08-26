@@ -69,6 +69,14 @@ class Frame(Container):
     Container.removeWidget(self, widget)
     self.layout.layoutWidgets(self)
 
+  def layoutWidgets(self):
+    self.layout.layoutWidgets(self)
+
+  def resizeToFit(self):
+    width = self.layout.getWidth(self)
+    height = self.layout.getHeight(self)
+    self.setDimensions(width, height)
+
   def draw(self, surface):
     # First draw the background and border:
     bg_drawer = self.getBackgroundDrawer()
@@ -83,7 +91,6 @@ class Frame(Container):
       clipping_width, clipping_height)
     
     surface.set_clip(pygame_clip_rect)
-    # print "Pygame clip rect is: " + str(surface.get_clip())
     Container.draw(self, surface)
     border_drawer = self.getBorderDrawer()
     border_drawer.drawBorder(self, surface)

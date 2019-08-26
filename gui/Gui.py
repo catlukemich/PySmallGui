@@ -57,7 +57,14 @@ class Gui(Container, MouseListener, KeyboardListener):
   def mouseButtonDown(self, event):
     if self.hover_widget != None:
       self.hover_widget.onMouseButtonDown(event)
-      
+    
+    old_focus = self.focus_widget
+    new_focus = self.hover_widget
+    if old_focus != None:
+      old_focus.onFocusLost(event)
+    if new_focus != None:
+      new_focus.onFocusGain(event)
+
     self.focus_widget = self.hover_widget
     self.active_widget = self.hover_widget
     print "New focus widget: " + str(self.focus_widget)
