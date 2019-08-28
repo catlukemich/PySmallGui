@@ -55,7 +55,7 @@ def main():
   frame.setDimensions(200,200)
   #frame.setLayout(gui.GridLayout(3,4))
   #frame.setLayout(gui.GridLayout(2, 4, Align.TOP))
-  frame.setLayout(gui.VerticalLayout(Align.TOP_LEFT))
+  frame.setLayout(gui.VerticalLayout())
   the_gui.addWidget(frame)
   
  
@@ -94,7 +94,7 @@ def main():
   inner_frame.setDimensions(180,100)
   frame.addWidget(inner_frame)
   
-  inner_frame.setLayout(gui.GridLayout(3,5, Align.LEFT))
+  inner_frame.setLayout(gui.GridLayout(3,5))
 
   for i in range(0,12):
     col = i % 3

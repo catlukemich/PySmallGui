@@ -50,17 +50,6 @@ class GridLayout():
       rows_max_heights.append(max_height)
 
 
-    # Calculate the bounds of all the widgets:
-    bounds_width  = 0
-    bounds_height = 0
-    for column_max_width in columns_max_widths:   
-      bounds_width += column_max_width
-  
-    for row_max_height in rows_max_heights:
-      bounds_height += row_max_height
-    
-   
-
     # Place the widgets
     i = 0
     for widget in widgets:
@@ -83,14 +72,7 @@ class GridLayout():
         widget_size.x , widget_size.y, 
         widget_align
       )
-      '''
-      delta_width = max_width - widget_size.x 
-      offset_left = current_column_x + round(delta_width / 2.0) + widget_offset.x
-      
-      delta_height = max_height - widget_size.y
-      offset_top =  current_row_y + round(delta_height / 2.0) + widget_offset.y
-      '''
-
+     
       widget.setPosition(current_column_x + widget_offset.x, current_row_y + widget_offset.y)
 
       i += 1

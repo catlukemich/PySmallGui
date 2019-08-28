@@ -85,7 +85,7 @@ class Text(Box):
     for line in lines:
       current_x = 0
 
-      offset_vector = Aligner.getAlignmentPosition(surf_width, 0 , line.width, 0, self.text_align)
+      offset_vector = Aligner.getAlignmentOffset(surf_width, 0 , line.width, 0, self.text_align)
       for letter in line.text:
         id = ord(letter)
         glyph = self.font.getGlyph(id)
@@ -106,8 +106,7 @@ class Text(Box):
 
     dimensions = self.getDimensions()
     surface_size = self.text_surface.get_size()
-    surface_offset = Aligner.getAlignmentPosition(dimensions.x, dimensions.y, surface_size[0], surface_size[1], self.text_align)
-
+    surface_offset = Aligner.getAlignmentOffset(dimensions.x, dimensions.y, surface_size[0], surface_size[1], self.text_align)
 
     content_area = self.getContentArea()
     surface.blit(self.text_surface, (content_area.top_left.x + surface_offset.x, content_area.top_left.y + surface_offset.y))

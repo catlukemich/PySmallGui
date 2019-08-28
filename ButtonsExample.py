@@ -6,24 +6,22 @@ class ButtonExample(Framework):
    
     # Testing parenting:
     frame = gui.Frame()
-    frame.setPosition(100,0)
-    frame.setMargins(EqualPad(4))
-    frame.setBorders(EqualPad(1))
-    frame.setPaddings(Pad(2,2,20,2))
-    frame.setDimensions(200,200)
-    #frame.setLayout(gui.GridLayout(3,4))
-    frame.setLayout(gui.GridLayout(2, 4, Align.TOP))
-    #frame.setLayout(gui.VerticalLayout(Align.RIGHT))
+    frame.setPosition(100,100)
+    #frame.setMargins(EqualPad(4))
+    #frame.setLayout(gui.GridLayout(1, 1))
+    frame.setLayout(gui.VerticalLayout())
+    frame.setDimensions(80,80)    
+    frame.setBorders(Pad(1,1,1,1))
+    frame.setPaddings(Pad(0,0,0,30))
     the_gui.addWidget(frame)
-
-
+    
     # Testing ImageButton
     img_default = gui.loadImage("res/aircraft_bnw.png")
     img_pressed = gui.loadImage("res/aircraft.png")
     img_button = gui.ImageButton(img_default, img_pressed)
-    img_button.setPosition(90, 20)
+   
+    frame.addWidget(img_button)
     img_button.setDimensions(100,100)
-    the_gui.addWidget(img_button)
 
 
 

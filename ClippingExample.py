@@ -20,7 +20,7 @@ class ClippingExample(Framework):
     inner_frame.setDimensions(180,100)
     frame.addWidget(inner_frame)
     
-    inner_frame.setLayout(gui.GridLayout(3,5, Align.LEFT))
+    inner_frame.setLayout(gui.GridLayout(3,5))
 
     for i in range(0,12):
       col = i % 3

@@ -6,7 +6,7 @@ class Image(Box):
     Box.__init__(self)
     self.original_image = image
     self.transformed_image = image
-
+    self.transformImage()
 
   def setImage(self, image):
     self.original_image = image

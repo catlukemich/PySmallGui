@@ -32,11 +32,12 @@ class Widget():
 
   # Calculate the absolute_position on the screen of a widget.
   def calcAbsolutePosition(self):
+    absolute_position = Vector2D(self.position) 
+ 
     parent = self.parent
-    absolute_position = Vector2D(self.position)
     while parent != None :
       absolute_position += parent.getPosition()
-
+      
       borders = parent.getBorders()
       absolute_position.x += borders.left
       absolute_position.y += borders.top
@@ -47,10 +48,11 @@ class Widget():
 
       paddings = parent.getPaddings()
       absolute_position.x += paddings.left
-      absolute_position.y += paddings.right
-
-      parent = parent.parent
+      absolute_position.y += paddings.top
       
+      parent = parent.getParent()
+      
+    print str(self) + " " + str(absolute_position)
     return absolute_position
 
   def getPosition(self):
@@ -70,6 +72,7 @@ class Widget():
     from .Frame import Frame
     if self.parent != None and isinstance(self.parent, Frame):
       self.parent.layoutWidgets()
+      self.parent.resizeToFit()
 
   def getDimensions(self):
     return self.dimensions

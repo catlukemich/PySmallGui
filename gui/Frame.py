@@ -19,29 +19,29 @@ class Frame(Container):
 
 
   def setParent(self, parent):
-    Widget.setParent(self, parent)
+    Container.setParent(self, parent)
     self.recalculateRectangles()
   
   def setDimensions(self, x, y):
-    Widget.setDimensions(self, x, y)
+    Container.setDimensions(self, x, y)
     self.layout.layoutWidgets(self) 
     self.recalculateRectangles()
 
   def setPosition(self, x, y):
-    Widget.setPosition(self, x, y)
+    Container.setPosition(self, x, y)
     self.recalculateRectangles()
 
   def setPaddings(self, pad):
-    Widget.setPaddings(self, pad)
+    Container.setPaddings(self, pad)
     self.recalculateRectangles()
 
   def setMargins(self, pad):
-    Widget.setMargins(self, pad)
-    self.recalculateClippingRectangle()
+    Container.setMargins(self, pad)
+    self.recalculateRectangles()
 
   def setBorders(self, pad):
-    Widget.setBorders(self, pad)
-    self.recalculateClippingRectangle()
+    Container.setBorders(self, pad)
+    self.recalculateRectangles()
 
   def recalculateRectangles(self):
     clipping_rectangle = self.getContentArea()
@@ -88,10 +88,8 @@ class Frame(Container):
     self.setDimensions(width, height) 
 
   def draw(self, surface):
-      
     parent_clip = surface.get_clip()
-
-    
+   
     bg_drawer = self.getBackgroundDrawer()
     if bg_drawer != None:
       bg_drawer.drawBackground(self, surface)

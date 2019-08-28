@@ -28,6 +28,8 @@ class Gui(Container, MouseListener, KeyboardListener):
     else:
       widgets = parent.getWidgets()
 
+    widgets = reversed(widgets)
+
     for widget in widgets:
       if isinstance(widget, Container):
         parent = widget

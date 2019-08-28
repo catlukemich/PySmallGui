@@ -32,8 +32,8 @@ class LayoutExapmple(Framework):
     
     img = gui.loadImage("res/aircraft.png")
     img_widget = gui.Image(img)
-    img_widget.setDimensions(50,50)
-    inner_inner_frame.addWidget(img_widget)
+    #img_widget.setDimensions(50,50)
+    the_gui.addWidget(img_widget)
 
     '''
 
@@ -127,7 +127,7 @@ class LayoutExapmple(Framework):
     # Testing nested layouts:
     outer_frame = gui.Frame()
     outer_frame.setPosition(200, 200)
-    #outer_frame.setPaddings(EqualPad(10))
+    outer_frame.setPaddings(Pad(0,20,0,0))
     outer_frame.setLayout(gui.VerticalLayout())
 
     the_gui.addWidget(outer_frame)
