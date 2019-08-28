@@ -5,6 +5,7 @@ from .Bounds import Bounds
 from .Color import Color
 from .GridLayout import GridLayout
 from .Pad import Pad
+from .Pad import EqualPad
 from .Gui import Gui
 from .HorizontalLayout import HorizontalLayout
 from .Image import Image
@@ -23,3 +24,5 @@ from .Widget import Widget
 from .TextButton import TextButton
 from .TextInput import TextInput
 from .Text import Text
+from .RowsLayout import RowsLayout
+from .ColsLayout import ColsLayout

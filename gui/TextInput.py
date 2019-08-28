@@ -48,8 +48,7 @@ class TextInput(Label):
         break
 
   def onKeyDown(self, event):
-    
-    if (event.key >= 65 and event.key <= 90) or (event.key >= 97 and event.key <= 122) or event.key == 32:
+    if chr(event.key).isalnum() or chr(event.key) == " ":
       char = chr(event.key)
       if event.key >= 96 and event.key <= 122:
         if event.mod == 2:

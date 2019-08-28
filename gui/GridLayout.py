@@ -2,8 +2,7 @@ from .Layout import *
 from .Alignment import *
 
 class GridLayout():
-  def __init__(self, cols, rows, align = Align.CENTER):
-    self.align = align
+  def __init__(self, cols, rows):
     self.cols = cols
     self.rows = rows
 
@@ -46,9 +45,9 @@ class GridLayout():
       max_height = 0
       heights = rows_heights[i]
       for height in heights:
-        if height > max_height: max_width = height
+        if height > max_height: max_height = height
 
-      rows_max_heights.append(max_width)
+      rows_max_heights.append(max_height)
 
 
     # Calculate the bounds of all the widgets:
@@ -60,17 +59,7 @@ class GridLayout():
     for row_max_height in rows_max_heights:
       bounds_height += row_max_height
     
-    # Calculate the top bounds offset and left bounds offset:
-    bounds_parent = parent.getDimensions()
-    offset_vector = Aligner.getAlignmentPosition(
-      bounds_parent.x, bounds_parent.y, 
-      bounds_width, bounds_height,
-      self.align
-    )
-  
-    bounds_offset_left = offset_vector.x
-    bounds_offset_top = offset_vector.y
-    
+   
 
     # Place the widgets
     i = 0
@@ -88,13 +77,21 @@ class GridLayout():
       max_width = columns_max_widths[widget_column]
       max_height = rows_max_heights[widget_row]
 
-      delta_width = max_width - widget_size.x
-      offset_left = bounds_offset_left + current_column_x + delta_width / 2
+      widget_align = widget.getAlign()
+      widget_offset = Aligner.getAlignmentOffset(
+        max_width     , max_height, 
+        widget_size.x , widget_size.y, 
+        widget_align
+      )
+      '''
+      delta_width = max_width - widget_size.x 
+      offset_left = current_column_x + round(delta_width / 2.0) + widget_offset.x
       
       delta_height = max_height - widget_size.y
-      offset_top = bounds_offset_top + current_row_y + delta_height / 2 
+      offset_top =  current_row_y + round(delta_height / 2.0) + widget_offset.y
+      '''
 
-      widget.setPosition(offset_left, offset_top)
+      widget.setPosition(current_column_x + widget_offset.x, current_row_y + widget_offset.y)
 
       i += 1
 
@@ -136,19 +133,16 @@ class GridLayout():
   def getHeight(self, parent):
     widgets = parent.getWidgets()
 
-   
     rows_heights = []
     for x in range(0, self.rows): rows_heights.append([])
 
     rows_max_heights    = []
-
 
     # Populate the columns widths and columns heights arrays:
     i = 0
     for widget in widgets:
       size = widget.getWholeSize()
       
-     
       widget_row = i / self.cols
       rows_heights[widget_row].append(size.y)
 
@@ -156,15 +150,13 @@ class GridLayout():
 
 
     # Calculate max rows heights:
-  
-    
     for i in range(0, self.rows):
       max_height = 0
       heights = rows_heights[i]
       for height in heights:
-        if height > max_height: max_width = height
+        if height > max_height: max_height = height
 
-      rows_max_heights.append(max_width)
+      rows_max_heights.append(max_height)
 
     total_height = 0
     for height in rows_max_heights:

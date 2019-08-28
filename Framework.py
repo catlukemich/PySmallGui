@@ -13,7 +13,7 @@ class Framework():
   def main(self):
 
     pygame.init()
-    screen = pygame.display.set_mode((800,600))
+    screen = pygame.display.set_mode((1200,1000))
 
     input = gui.Input()
     

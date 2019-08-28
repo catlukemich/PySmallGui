@@ -29,7 +29,7 @@ class Label(Box):
     for letter in text:
       id = ord(letter)
       glyph = self.font.getGlyph(id)
-      width += glyph.xadvance
+      width += int(glyph.xadvance)
     return width
 
   def drawTextSurface(self):

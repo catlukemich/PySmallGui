@@ -17,34 +17,32 @@ class Align():
 class Aligner():
 
   @staticmethod
-  def getAlignmentPosition(width_outer, height_outer, width_inner, height_inner, align = Align.CENTER):
-   
-
-    # Calculate the top bounds offset and left bounds offset:
-    bounds_offset_left = (width_outer - width_inner) / 2
-    bounds_offset_top = (height_outer - height_inner) / 2
+  def getAlignmentOffset(width_outer, height_outer, width_inner, height_inner, align = Align.CENTER):
+    # Calculate the top offset and left  offset:
+    offset_left = (width_outer - width_inner) / 2.0
+    offset_top = (height_outer - height_inner) / 2.0
     if align == Align.CENTER:
       pass
     elif align == Align.LEFT:
-      bounds_offset_left = 0
+      offset_left = 0
     elif align == Align.RIGHT:
-      bounds_offset_left = width_outer - width_inner
+      offset_left = width_outer - width_inner
     elif align == Align.TOP:
-      bounds_offset_top = 0
+      offset_top = 0
     elif align == Align.BOTTOM:
-      bounds_offset_top = height_outer - height_inner
+      offset_top = height_outer - height_inner
     elif align == Align.TOP_LEFT:
-      bounds_offset_left = 0
-      bounds_offset_top = 0
+      offset_left = 0
+      offset_top = 0
     elif align == Align.TOP_RIGHT:
-      bounds_offset_left = width_outer - width_inner
-      bounds_offset_top = 0
+      offset_left = width_outer - width_inner
+      offset_top = 0
     elif align == Align.BOTTOM_LEFT:
-      bounds_offset_left = 0
-      bounds_offset_top = height_outer - height_inner
+      offset_left = 0
+      offset_top = height_outer - height_inner
     elif align == Align.BOTTOM_RIGHT:
-      bounds_offset_left = width_outer - width_inner
-      bounds_offset_top = height_outer - height_inner
+      offset_left = width_outer - width_inner
+      offset_top = height_outer - height_inner
 
-    return Vector2D(bounds_offset_left, bounds_offset_top)
+    return Vector2D(round(offset_left), round(offset_top))
     

@@ -35,7 +35,7 @@ class Gui(Container, MouseListener, KeyboardListener):
         if hover_widget == None:
           parent_area = parent.getBorderedArea()
           if isinstance(widget, Frame):
-            parent_area = widget.getClippingRectangle()
+            parent_area = widget.getHoverRectangle()
           mouse = Vector2D(mouse_x, mouse_y)
           if parent_area.containsPoint(mouse):
             return parent
@@ -47,7 +47,8 @@ class Gui(Container, MouseListener, KeyboardListener):
         parent = widget.getParent()
   
         if parent != None and isinstance(parent, Frame):
-          widget_area = widget_area.intersection(parent.getClippingRectangle())
+          parent_hover_rectangle = parent.getHoverRectangle()
+          widget_area = widget_area.intersection(parent_hover_rectangle)
         if widget_area.containsPoint(mouse):
           return widget
         
@@ -74,7 +75,7 @@ class Gui(Container, MouseListener, KeyboardListener):
       self.hover_widget.onMouseButtonUp(event)
     if self.hover_widget != None and self.active_widget != None and self.hover_widget == self.active_widget:
       self.active_widget.onClick(event)
-      print "Click on widget: " + str(self.active_widget)
+ 
 
   def keyDown(self, event):
     if self.focus_widget != None:

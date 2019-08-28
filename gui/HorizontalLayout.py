@@ -5,9 +5,7 @@ import pprint
 
 
 class HorizontalLayout(Layout):
-  def __init__(self, align = Align.CENTER):
-    self.align = align
-
+  
   def layoutWidgets(self, parent):
     widgets = parent.getWidgets()
     if len(widgets) == 0: return
@@ -24,15 +22,15 @@ class HorizontalLayout(Layout):
       row_width += width
 
     parent_size = parent.getContentSize()
-    parent_offset_vector  = Aligner.getAlignmentPosition(
+    parent_offset_vector  = Aligner.getAlignmentOffset(
       parent_size.x, parent_size.y, 
-      row_width, row_height, self.align)
+      row_width, row_height, Align.CENTER)
 
     current_x = 0
     for widget in widgets:
       widget_size = widget.getWholeSize()  
       widget_align = widget.getAlign()
-      widget_offset_vector = Aligner.getAlignmentPosition(
+      widget_offset_vector = Aligner.getAlignmentOffset(
         0, row_height, 0, widget_size.y, widget_align
       )
       position_x = current_x + parent_offset_vector.x + widget_offset_vector.x
