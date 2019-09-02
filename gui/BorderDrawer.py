@@ -7,6 +7,10 @@ class BorderDrawer():
   def __init__(self, color = Color(150,150,150)):
     self.color = color
 
+
+  def setColor(self, color):
+    self.color = color
+
   def drawBorder(self, widget, surface):
     absolute_position = widget.calcAbsolutePosition()
 

@@ -8,6 +8,10 @@ class BackgroundDrawer():
   def __init__(self, color = Color(240,240,240)):
     self.color = color
 
+  def setColor(self, color):
+    self.color = color
+
+
   def drawBackground(self, widget, surface):
     absolute_position = widget.calcAbsolutePosition()
 

@@ -54,3 +54,14 @@ def loadFont(fnt_path, atlas_path):
     glyphs[id] = Glyph(id, x, y, width, height, x_offset, y_offset, xadvance)
     
   return Font(font_size, glyphs, font_atlas)
+
+
+
+def mapRange(input_value, original_range_min, original_range_max, target_range_min, target_range_max):
+  delta_original = float(original_range_max) - float(original_range_min)
+  delta_target   = float(target_range_max) - float(target_range_min)
+  scale = delta_target / delta_original
+
+  delta_input_to_min = input_value - original_range_min
+  output = delta_input_to_min * scale + target_range_min
+  return output

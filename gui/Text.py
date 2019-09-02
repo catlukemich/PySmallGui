@@ -3,6 +3,7 @@ import pygame
 from .Box import Box
 from .Alignment import Align
 from .Alignment import Aligner
+from .Color import Color
 
 class Line():
   def __init__(self, width, text):
@@ -13,11 +14,15 @@ class Line():
     return "Line: width: %d, contents: %s" % (self.width, self.text) 
 
 class Text(Box):
-  def __init__(self, font, text = ""):
+  def __init__(self, max_width, font, text = ""):
     Box.__init__(self)
+    
+    self.max_width = max_width
     
     self.font = font
     self.text = text
+
+    self.color = Color(0,0,0)
 
     #self.setBackgroundDrawer(None)
     #self.setBorderDrawer(None)
@@ -26,6 +31,16 @@ class Text(Box):
 
     self.text_surface = self.drawTextSurface()
     
+    size = self.text_surface.get_size() 
+    self.setDimensions(size[0], size[1])
+    
+
+  def setMaxWidth(self, width):
+    self.max_width = width
+    self.text_surface = self.drawTextSurface()
+    size = self.text_surface.get_size() 
+    self.setDimensions(size[0], size[1])
+  
   def getTextWidth(self, text):
     width = 0
     for letter in text:
@@ -37,6 +52,12 @@ class Text(Box):
 
   def setText(self, text):
     self.text = text
+    self.text_surface = self.drawTextSurface()
+    size = self.text_surface.get_size() 
+    self.setDimensions(size[0], size[1])
+
+  def setTextColor(self, color):
+    self.color = color
     self.text_surface = self.drawTextSurface()
 
   def setTextAlign(self, align):
@@ -51,8 +72,6 @@ class Text(Box):
     
     current_text = ""
   
-    dimensions = self.getDimensions()
-
     for word_idx in range(0, len(words) ):
       current_word = words[word_idx]
       current_word_width = self.getTextWidth(current_word + " ")
@@ -64,7 +83,7 @@ class Text(Box):
         next_word = words[word_idx + 1]
         next_word_width = self.getTextWidth(next_word)
       except: pass
-      if current_x + next_word_width  > dimensions.x:
+      if current_x + next_word_width  > self.max_width:
         lines.append(Line(current_x, current_text))
         current_x = 0
         current_text = ""
@@ -99,6 +118,11 @@ class Text(Box):
       current_x = 0
       current_y += self.font.size
     
+    text_surface.fill(
+      (self.color.red, self.color.green, self.color.blue), 
+      None, pygame.BLEND_RGBA_MULT
+    )
+
     return text_surface
 
   def draw(self, surface):

@@ -1,6 +1,7 @@
 import pygame
 from .Box import Box
 from .Vector2D import Vector2D
+from .Color import Color
 
 class Label(Box):
   def __init__(self, font, text = ""):
@@ -8,6 +9,8 @@ class Label(Box):
     self.font = font
     self.text = text
     
+    self.color = Color(0,0,0)
+
     self.text_surface = self.drawTextSurface()
     size = self.text_surface.get_size()
     self.setDimensions(size[0], size[1])
@@ -21,6 +24,10 @@ class Label(Box):
     size = self.text_surface.get_size()
     self.setDimensions(size[0], size[1])
   
+  def setTextColor(self, color):
+    self.color = color
+    self.text_surface = self.drawTextSurface()
+
   def getText(self):
     return self.text
 
@@ -52,6 +59,11 @@ class Label(Box):
 
       current_width += glyph.xadvance
     
+    text_surface.fill(
+      (self.color.red, self.color.green, self.color.blue), 
+      None, pygame.BLEND_RGBA_MULT
+    )
+
     return text_surface
 
   def draw(self, surface):

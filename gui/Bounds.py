@@ -25,9 +25,9 @@ class Bounds():
     top_left = Vector2D(top_left_x, top_left_y)
     bottom_right = Vector2D(bottom_right_x, bottom_right_y)
 
-    if bottom_right < top_left: return Bounds() # Return empty bounds
+    if bottom_right.x < top_left.x or bottom_right.y < top_left.y: return Bounds() # Return empty bounds
     else: return Bounds(top_left, bottom_right)
 
   def __str__(self):
-    return "Bounds, top left: %s, bottom_right: %s" % (self.top_left, self.bottom_right)
+    return "Bounds, tl: %s, br: %s" % (self.top_left, self.bottom_right)
 

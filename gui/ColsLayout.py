@@ -71,7 +71,7 @@ class ColsLayout(Layout):
 
 
     # Calculate the top bounds offset and left bounds offset:
-    offset_vector = Aligner.getAlignmentPosition(parent_size.x, parent_size.y, bounds_width, bounds_height, self.align)
+    offset_vector = Aligner.getAlignmentOffset(parent_size.x, parent_size.y, bounds_width, bounds_height, self.align)
     bounds_offset_left = offset_vector.x
     bounds_offset_top = offset_vector.y
 

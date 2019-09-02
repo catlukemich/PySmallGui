@@ -1,6 +1,8 @@
 from Framework import *
 import gui
 from gui.Pad import EqualPad
+from gui.Alignment import Align
+from gui.Color import Color
 
 class TextExapmple(Framework):
 
@@ -11,6 +13,7 @@ class TextExapmple(Framework):
     label = gui.Label(font, "Hello world")
     the_gui.addWidget(label) 
     label.setText("Hello world again")
+    label.setTextColor(Color(0,0,0))
 
 
     # Text Button:
@@ -21,7 +24,7 @@ class TextExapmple(Framework):
     the_gui.addWidget(text_button)
 
     # Text Input: 
-    text_input = gui.TextInput(100, font)
+    text_input = gui.TextInput(font)
     text_input.setPosition(300, 0)
     text_input.setPaddings(EqualPad(4))
     the_gui.addWidget(text_input) 
@@ -31,11 +34,12 @@ class TextExapmple(Framework):
     frame.setDimensions(100,100)
     frame.setPosition(20, 50)
     the_gui.addWidget(frame)
-    text_input = gui.TextInput(100, font)
+    text_input = gui.TextInput(font)
+    
     frame.addWidget(text_input)
 
     # Text widget:
-    text = gui.Text(font)
+    text = gui.Text(400,font)
     text.setDimensions(200,200)
     text.setPosition(200,100)
     text.setText("Lorem Ipsum is simply dummy text of the printing " + \
@@ -44,6 +48,8 @@ class TextExapmple(Framework):
         "took a galley of type and scrambled it to make a type specimen " + \
         " book. It has survived not only five centuries, " + \
         "but also the leap into electronic typesetting, remaining essent")
+    text.setTextAlign(Align.LEFT)
+    text.setMaxWidth(160)
     the_gui.addWidget(text)
 
 if __name__ == "__main__":

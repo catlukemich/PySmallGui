@@ -8,11 +8,12 @@ from .BorderDrawer import BorderDrawer
 from .Frame import Frame
 
 class TextInput(Label):
-  def __init__(self, width, font, text = ""):
+  def __init__(self, font, min_width = 50, text = ""):
     Label.__init__(self, font, text)
-    self.setWidth(width)
+    self.min_width = min_width
+    self.setWidth(min_width)
     self.setHeight(font.size)
-    
+
     self.caret_index = 0
     self.caret = self.createCaret()
 
@@ -84,6 +85,10 @@ class TextInput(Label):
     if self.caret_index > len(self.text):
       self.caret_index = len(self.text)
       
+    own_width = self.min_width
+    text_width = self.getTextWidth(self.text)
+    if text_width > own_width: own_width = text_width
+    self.setWidth(own_width)
 
   def onFocusGain(self, event):
     self.has_focus = True

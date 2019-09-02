@@ -26,3 +26,5 @@ from .TextInput import TextInput
 from .Text import Text
 from .RowsLayout import RowsLayout
 from .ColsLayout import ColsLayout
+from .LabelFrame import LabelFrame
+from .ScrollFrame import *

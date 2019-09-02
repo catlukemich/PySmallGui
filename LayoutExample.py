@@ -21,7 +21,7 @@ class LayoutExapmple(Framework):
     
     inner_frame2 = gui.Frame()
     inner_frame2.setPosition(0, 60)
-    inner_frame2.setPaddings(EqualPad(5))
+    #inner_frame2.setPaddings(EqualPad(5))
     inner_frame2.setDimensions(50,50)
     frame.addWidget(inner_frame2)
       
@@ -35,7 +35,7 @@ class LayoutExapmple(Framework):
     #img_widget.setDimensions(50,50)
     the_gui.addWidget(img_widget)
 
-    '''
+
 
 
     # Testing horizontal layout:
@@ -123,11 +123,11 @@ class LayoutExapmple(Framework):
       box.setAlign(Align.CENTER)
       frame.addWidget(box)
 
-    '''
+    
     # Testing nested layouts:
     outer_frame = gui.Frame()
     outer_frame.setPosition(200, 200)
-    outer_frame.setPaddings(Pad(0,20,0,0))
+    outer_frame.setPaddings(Pad(10,10,10,10))
     outer_frame.setLayout(gui.VerticalLayout())
 
     the_gui.addWidget(outer_frame)
@@ -163,7 +163,9 @@ class LayoutExapmple(Framework):
       img_widget.setDimensions(40,40)
       inner_frame2.addWidget(img_widget)
 
-    outer_frame.layoutWidgets()
+    text_input = gui.TextInput(font, 50)
+    outer_frame.addWidget(text_input)
+
 if __name__ == "__main__":
   example = LayoutExapmple()
   example.main()

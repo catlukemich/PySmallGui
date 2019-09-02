@@ -3,6 +3,7 @@ from .Container import *
 from .Input import *
 from .Vector2D import *
 from .Frame import *
+from .Pad import *
 
 class Gui(Container, MouseListener, KeyboardListener):
   def __init__(self, input):
@@ -10,6 +11,10 @@ class Gui(Container, MouseListener, KeyboardListener):
     self.hover_widget = None
     self.focus_widget = None
     self.active_widget = None
+
+    self.setMargins(EqualPad(0))
+    self.setBorders(EqualPad(0))
+    self.setPaddings(EqualPad(0))
     
   def mouseMotion(self, event):
     old_hover_widget = self.hover_widget
@@ -22,6 +27,9 @@ class Gui(Container, MouseListener, KeyboardListener):
   
       self.hover_widget = new_hover_widget
       
+    if old_hover_widget == new_hover_widget and old_hover_widget != None and new_hover_widget != None:
+      self.hover_widget.onMouseMove(event)
+ 
   def findHoverWidget(self, mouse_x, mouse_y, parent = None):
     if parent == None:
       widgets = self.getWidgets()

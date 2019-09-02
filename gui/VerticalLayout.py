@@ -33,8 +33,6 @@ class VerticalLayout(Layout):
       widget_offset_vector = Aligner.getAlignmentOffset(
         col_width, 0, widget_size.x, 0, widget_align
       )
-      print col_width
-      print widget_offset_vector
 
       position_x = parent_offset_vector.x + widget_offset_vector.x
       position_y = current_y + parent_offset_vector.y+ widget_offset_vector.y

@@ -33,8 +33,8 @@ class Widget():
   # Calculate the absolute_position on the screen of a widget.
   def calcAbsolutePosition(self):
     absolute_position = Vector2D(self.position) 
- 
     parent = self.parent
+
     while parent != None :
       absolute_position += parent.getPosition()
       
@@ -51,17 +51,20 @@ class Widget():
       absolute_position.y += paddings.top
       
       parent = parent.getParent()
-      
-    print str(self) + " " + str(absolute_position)
+
+    
     return absolute_position
 
   def getPosition(self):
     return self.position
 
   
-  def setPosition(self, x, y):
-    self.position.x = x
-    self.position.y = y 
+  def setPosition(self, x, y = None):
+    if isinstance(x, Vector2D):
+      self.position = x
+    else:
+      self.position.x = x
+      self.position.y = y 
 
   def setDimensions(self, x, y = None):
     if isinstance(x, Vector2D):
@@ -73,7 +76,7 @@ class Widget():
     if self.parent != None and isinstance(self.parent, Frame):
       self.parent.layoutWidgets()
       self.parent.resizeToFit()
-
+ 
   def getDimensions(self):
     return self.dimensions
 
@@ -240,10 +243,21 @@ class Widget():
   def getBorderDrawer(self):
     return self.border_drawer
 
-  def onMouseOut(self, event):
-    pass
+  def setBackgroundColor(self, color):
+    if self.background_drawer != None:
+      self.background_drawer.setColor(color)
+
+  def setBorderColor(self, color):
+    if self.border_drawer != None:
+      self.border_drawer.setColor(color)
 
   def onMouseOver(self, event):
+    pass
+
+  def onMouseMove(self, event):
+    pass
+
+  def onMouseOut(self, event):
     pass
 
   def onKeyDown(self, event):
