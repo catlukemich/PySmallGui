@@ -2,8 +2,10 @@ import pygame
 from .Frame import Frame
 from .Box import Box
 from .Pad import Pad
+from .Pad import EqualPad
 from .Vector2D import Vector2D
 from .utils import *
+from .Color import Color
 
 class Scrolls():
   VERTICAL = 1
@@ -155,6 +157,7 @@ class VerticalScrolls(Frame):
   
   def setScrollPercentage(self, percentage):
     self.scroll_percentage = percentage
+    self.scroll_frame.setVerticalScrollPercentage(percentage)
 
   def scrollToPercentage(self, percentage):
     if percentage < 0: percentage = 0
@@ -321,6 +324,7 @@ class HorizontalScrolls(Frame):
   
   def setScrollPercentage(self, percentage):
     self.scroll_percentage = percentage
+    self.scroll_frame.setHorizontalScrollPercentage(percentage)
 
   def scrollToPercentage(self, percentage):
     if percentage < 0: percentage = 0
@@ -344,10 +348,20 @@ class HorizontalScrolls(Frame):
 class ScrollFrame(Frame):
   def __init__(self, scrolls = Scrolls.HORIZONTAL_AND_VERTICAL):
     Frame.__init__(self)
+    
+    self.horizontal_scroll_percentage = 0
+    self.vertical_scroll_percentage   = 0
+
     self.inner_frame = Frame()
+    self.inner_frame.setMargins(EqualPad(0))
+    self.inner_frame.setBorders(EqualPad(0))
+    self.inner_frame.setPaddings(EqualPad(0))
+    self.inner_frame.setBorderDrawer(None)
+    self.inner_frame.setBackgroundColor(Color(255,0,0))
+    Frame.addWidget(self, self.inner_frame)
+
     self.horizontal_scrolls = None
     self.vertical_scrolls   = None
-
     if scrolls | Scrolls.VERTICAL:
       self.vertical_scrolls = VerticalScrolls(self)
     if scrolls | Scrolls.HORIZONTAL:
@@ -391,7 +405,36 @@ class ScrollFrame(Frame):
     if self.horizontal_scrolls != None:
       self.horizontal_scrolls.setWidth(horizontal_scrolls_width)
       
-    
+  def setVerticalScrollPercentage(self, percentage):
+    self.vertical_scroll_percentage = percentage
+    frame_height = self.inner_frame.getWholeHeight()
+    own_height = self.getHeight() - self.horizontal_scrolls.getHeight()
+      
+    delta_height = frame_height - own_height
+    if delta_height < 0: return
+    scroll_amount = mapRange(self.vertical_scroll_percentage, 
+      0, 100,
+      0, -delta_height
+    )
+    inner_frame_pos = Vector2D(self.inner_frame.getPosition())
+    inner_frame_pos.y = scroll_amount
+    self.inner_frame.setPosition(inner_frame_pos)
+  
+  def setHorizontalScrollPercentage(self, percentage):
+    self.horizontal_scroll_percentage = percentage
+    frame_width = self.inner_frame.getWholeWidth()
+    own_width = self.getWidth() - self.vertical_scrolls.getWidth()
+  
+    delta_width = frame_width - own_width
+    if delta_width < 0: return
+    scroll_amount = mapRange(self.horizontal_scroll_percentage,
+      0, 100,
+      0, -delta_width
+    )
+    inner_frame_pos = Vector2D(self.inner_frame.getPosition())
+    inner_frame_pos.x = scroll_amount
+    self.inner_frame.setPosition(inner_frame_pos)
+
 
   def layoutWidgets(self):
     own_dimensions = self.getDimensions()

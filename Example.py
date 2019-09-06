@@ -41,10 +41,7 @@ def main():
   bordered_area = box.getBorderedArea()
   whole_area = box.getWholeArea()
 
-  print "Content area: " + str(content_area)
-  print "Padded area: " + str(padded_area)
-  print "Bordered area: " + str(bordered_area)
-  print "Whole area: " + str(whole_area) 
+ 
 
   # Testing parenting:
   frame = gui.Frame()

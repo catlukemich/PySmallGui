@@ -33,7 +33,7 @@ class Frame(Container):
       if isinstance(widget, Frame):
         widget.recalculateRectangles()
 
-  def setPosition(self, x, y):
+  def setPosition(self, x, y = None):
     Container.setPosition(self, x, y)
     self.recalculateRectangles()
     for widget in self.widgets:  
@@ -111,6 +111,9 @@ class Frame(Container):
     width = self.layout.getWidth(self)
     height = self.layout.getHeight(self)
     self.setDimensions(width, height) 
+    parent = self.getParent()
+    if parent != None and isinstance(parent, Frame):
+      parent.resizeToFit()
 
   def draw(self, surface):
     abs_pos  = self.calcAbsolutePosition()

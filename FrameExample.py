@@ -5,7 +5,7 @@ class FrameExapmple(Framework):
 
   def init(self, the_gui):
     # Testing parenting:
-    '''
+ 
     frame = gui.Frame()
     frame.setPosition(0,0)
     frame.setMargins(EqualPad(0))
@@ -50,32 +50,20 @@ class FrameExapmple(Framework):
         label_frame.addWidget(label)
   
    
-    vertical_scrolls = gui.VerticalScrolls(None)
-    vertical_scrolls.setPosition(200, 200)
-    vertical_scrolls.setHeight(200)
-    the_gui.addWidget(vertical_scrolls)
-
-    horizontal_scrolls = gui.HorizontalScrolls(None)
-    horizontal_scrolls.setWidth(300)
-    horizontal_scrolls.setPosition(290, 200)
-    the_gui.addWidget(horizontal_scrolls)
-    
-    '''
-    
-
-
-    outer_frame = gui.Frame()
-    outer_frame.setDimensions(200, 200)
-    outer_frame.setBorders(EqualPad(5))
-    outer_frame.recalculateRectangles()
-    the_gui.addWidget(outer_frame)
-
+  
     scroll_frame = gui.ScrollFrame()
-    scroll_frame.setPosition(100, 100)
+    scroll_frame.setPosition(10, 200)
     scroll_frame.setDimensions(100,100)
     scroll_frame.setPaddings(EqualPad(0))
-    outer_frame.addWidget(scroll_frame)
+    scroll_frame.setLayout(gui.GridLayout(4,10))
+    the_gui.addWidget(scroll_frame)
    
+    for y in range(0,10):
+      for x in range(0,4):
+        label = gui.Label(font)
+        txt = "Col: %d, Row: %d" % (x, y)
+        label.setText(txt)
+        scroll_frame.addWidget(label)
   
     
     #print inner_frame.getClippingRectangle()
