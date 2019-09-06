@@ -11,12 +11,32 @@ class Gui(Container, MouseListener, KeyboardListener):
     self.hover_widget = None
     self.focus_widget = None
     self.active_widget = None
+    self.drag_widget = None
 
     self.setMargins(EqualPad(0))
     self.setBorders(EqualPad(0))
     self.setPaddings(EqualPad(0))
-    
+
+  def mouseButtonDown(self, event):
+    if self.hover_widget != None:
+      self.hover_widget.onMouseButtonDown(event)
+      self.drag_widget = self.hover_widget
+
+    old_focus = self.focus_widget
+    new_focus = self.hover_widget
+    if old_focus != None:
+      old_focus.onFocusLost(event)
+    if new_focus != None:
+      new_focus.onFocusGain(event)
+
+    self.focus_widget = self.hover_widget
+    self.active_widget = self.hover_widget
+    print "New focus widget: " + str(self.focus_widget)
+
   def mouseMotion(self, event):
+    if self.drag_widget != None:
+      self.drag_widget.onDrag(event)
+
     old_hover_widget = self.hover_widget
     new_hover_widget = self.findHoverWidget(event.pos[0], event.pos[1])
     if new_hover_widget != old_hover_widget:
@@ -65,22 +85,11 @@ class Gui(Container, MouseListener, KeyboardListener):
 
     return None
 
-  def mouseButtonDown(self, event):
-    if self.hover_widget != None:
-      self.hover_widget.onMouseButtonDown(event)
-    
-    old_focus = self.focus_widget
-    new_focus = self.hover_widget
-    if old_focus != None:
-      old_focus.onFocusLost(event)
-    if new_focus != None:
-      new_focus.onFocusGain(event)
 
-    self.focus_widget = self.hover_widget
-    self.active_widget = self.hover_widget
-    print "New focus widget: " + str(self.focus_widget)
     
   def mouseButtonUp(self, event):
+    self.drag_widget = None
+
     if self.hover_widget != None:
       self.hover_widget.onMouseButtonUp(event)
     if self.hover_widget != None and self.active_widget != None and self.hover_widget == self.active_widget:
@@ -89,7 +98,6 @@ class Gui(Container, MouseListener, KeyboardListener):
 
   def keyDown(self, event):
     if self.focus_widget != None:
-      print "Key down on widget: " + str(self.focus_widget)
       self.focus_widget.onKeyDown(event)
       return True
     else: 

@@ -51,7 +51,7 @@ class FrameExapmple(Framework):
   
    
   
-    scroll_frame = gui.ScrollFrame()
+    scroll_frame = gui.ScrollFrame(gui.Scrolls.HORIZONTAL_AND_VERTICAL)
     scroll_frame.setPosition(10, 200)
     scroll_frame.setDimensions(100,100)
     scroll_frame.setPaddings(EqualPad(0))

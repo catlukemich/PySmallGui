@@ -269,6 +269,9 @@ class Widget():
   def onMouseButtonUp(self, event):
     pass
 
+  def onDrag(self, event):
+    pass
+
   def onClick(self, event):
     pass
 
