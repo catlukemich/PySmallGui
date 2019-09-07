@@ -19,8 +19,9 @@ class Gui(Container, MouseListener, KeyboardListener):
 
   def mouseButtonDown(self, event):
     if self.hover_widget != None:
-      self.hover_widget.onMouseButtonDown(event)
+      event_consumed = self.hover_widget.onMouseButtonDown(event)
       self.drag_widget = self.hover_widget
+      if event_consumed: return True
 
     old_focus = self.focus_widget
     new_focus = self.hover_widget
@@ -33,22 +34,32 @@ class Gui(Container, MouseListener, KeyboardListener):
     self.active_widget = self.hover_widget
     print "New focus widget: " + str(self.focus_widget)
 
+    return False
+
   def mouseMotion(self, event):
+    event_consumed = False
     if self.drag_widget != None:
-      self.drag_widget.onDrag(event)
+      event_consumed = self.drag_widget.onDrag(event)
+      if event_consumed: return True # The event is consumed by dragging a widget.
 
     old_hover_widget = self.hover_widget
     new_hover_widget = self.findHoverWidget(event.pos[0], event.pos[1])
     if new_hover_widget != old_hover_widget:
+
       if old_hover_widget != None:
-        old_hover_widget.onMouseOut(event)
+        event_consumed = old_hover_widget.onMouseOut(event)
+
       if new_hover_widget != None:
-        new_hover_widget.onMouseOver(event)
-  
+        event_consumed = new_hover_widget.onMouseOver(event)
+
       self.hover_widget = new_hover_widget
-      
+      if event_consumed: return True
+
     if old_hover_widget == new_hover_widget and old_hover_widget != None and new_hover_widget != None:
-      self.hover_widget.onMouseMove(event)
+      event_consumed = self.hover_widget.onMouseMove(event)
+      if event_consumed: return True
+
+    return False
  
   def findHoverWidget(self, mouse_x, mouse_y, parent = None):
     if parent == None:
@@ -88,18 +99,22 @@ class Gui(Container, MouseListener, KeyboardListener):
 
     
   def mouseButtonUp(self, event):
+    event_consumed = False
+
     self.drag_widget = None
 
     if self.hover_widget != None:
-      self.hover_widget.onMouseButtonUp(event)
+      event_consumed = self.hover_widget.onMouseButtonUp(event)
     if self.hover_widget != None and self.active_widget != None and self.hover_widget == self.active_widget:
-      self.active_widget.onClick(event)
- 
+      event_consumed = self.active_widget.onClick(event)
+
+    return event_consumed
+
+
+
 
   def keyDown(self, event):
+    event_consumed = False
     if self.focus_widget != None:
-      self.focus_widget.onKeyDown(event)
-      return True
-    else: 
-      return False
-
+      event_consumed = self.focus_widget.onKeyDown(event)
+    return event_consumed

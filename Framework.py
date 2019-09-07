@@ -26,10 +26,15 @@ class Framework():
 
     run = True
     while (run):
+      event_consumed = False
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           run = False
-        input.handleEvent(event)
+        else:
+          event_consumed = input.handleEvent(event)
+          if not event_consumed:
+            pass # The gui didn't consumed the event, process the event as you like.
+          else: print "Event consumed"
       
 
       screen.fill((255,255,255))
