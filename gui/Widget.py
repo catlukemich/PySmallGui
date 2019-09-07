@@ -23,6 +23,8 @@ class Widget():
     self.margins  = Pad() # The margin around the content with padding and borders
     
     self.align = Align.CENTER
+
+    self.listeners = []
     
   def setParent(self, parent):
     self.parent = parent
@@ -252,35 +254,81 @@ class Widget():
       self.border_drawer.setColor(color)
 
   def onMouseOver(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onMouseOver(self, event)
+      if consumed: break
+    return consumed
 
   def onMouseMove(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onMouseMove(self, event)
+      if consumed: break
+    return consumed
 
   def onMouseOut(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onMouseOut(self, event)
+      if consumed: break
+    return consumed
 
   def onKeyDown(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onKeyDown(self, event)
+      if consumed: break
+    return consumed
 
   def onMouseButtonDown(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onMouseButtonDown(self, event)
+      if consumed: break
+    return consumed
 
   def onMouseButtonUp(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onMouseButtonUp(self, event)
+      if consumed: break
+    return consumed
 
   def onDrag(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onDrag(self, event)
+      if consumed: break
+    return consumed
 
   def onClick(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onClick(self, event)
+      if consumed: break
+    return consumed
 
   def onFocusGain(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onFocusGain(self, event)
+      if consumed: break
+    return consumed
 
   def onFocusLost(self, event):
-    pass
+    consumed = False
+    for listener in self.listeners:
+      consumed = listener.onFocusLost(self, event)
+      if consumed: break
+    return consumed
 
   # Draw the widget
   def draw(self, surface):
     pass
+
+  def addListener(self, listener):
+    self.listeners.append(listener)
+
+  def removeListener(self, listener):
+    self.listeners.remove(listener)
