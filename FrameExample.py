@@ -66,12 +66,7 @@ class FrameExapmple(Framework):
         scroll_frame.addWidget(label)
   
     
-    #print inner_frame.getClippingRectangle()
-    #print outer_frame.getClippingRectangle()
-    #print scroll_frame.getClippingRectangle()
-    #print scroll_frame.vertical_scrolls.getClippingRectangle()
-    #print scroll_frame.horizontal_scrolls.getClippingRectangle()
-    
+
 
 if __name__ == "__main__":
   example = FrameExapmple()

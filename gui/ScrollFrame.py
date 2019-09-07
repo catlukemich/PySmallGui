@@ -332,7 +332,7 @@ class ScrollFrame(Frame):
     self.inner_frame.setBorders(EqualPad(0))
     self.inner_frame.setPaddings(EqualPad(0))
     self.inner_frame.setBorderDrawer(None)
-    self.inner_frame.setBackgroundColor(Color(255,0,0))
+    self.inner_frame.setBackgroundDrawer(None)
     Frame.addWidget(self, self.inner_frame)
 
     self.horizontal_scrolls = None
