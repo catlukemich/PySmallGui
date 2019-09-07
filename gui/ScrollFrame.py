@@ -65,27 +65,6 @@ class VerticalKnob(Box):
     
     self.setBorders(Pad(0,0,1,1))
 
-  def draw(self, surface):
-    Box.draw(self, surface)
-    area = self.getContentArea()
-    height = self.getHeight()
-    width = self.getWidth()
-
-    middle = round(height / 2.0)
-    
-    line1_co1 = (area.top_left.x + 2, area.top_left.y + middle - 2)
-    line1_co2 = (area.top_left.x + width - 2, area.top_left.y +  middle -2)
-    pygame.draw.line(surface, pygame.Color(0,0,0,255), line1_co1, line1_co2)
-
-    line2_co1 = (area.top_left.x + 2, area.top_left.y + middle)
-    line2_co2 = (area.top_left.x + width - 2, area.top_left.y + middle)
-    pygame.draw.line(surface, pygame.Color(0,0,0,255), line2_co1, line2_co2)
-
-    line3_co1 = (area.top_left.x + 2, area.top_left.y +  middle + 2)
-    line3_co2 = (area.top_left.x + width - 2 , area.top_left.y + middle + 2)
-    pygame.draw.line(surface, pygame.Color(0,0,0,255), line3_co1, line3_co2)
-    
-
   def onDrag(self, event):
     scrolls_height = self.vertical_scrolls.getHeight()
     own_height = self.getWholeHeight()
@@ -109,6 +88,29 @@ class VerticalKnob(Box):
       0, 100
     )
     self.vertical_scrolls.setScrollPercentage(scroll_percentage)
+
+
+
+  def draw(self, surface):
+    Box.draw(self, surface)
+    area = self.getContentArea()
+    height = self.getHeight()
+    width = self.getWidth()
+
+    middle = round(height / 2.0)
+    
+    line1_co1 = (area.top_left.x + 2, area.top_left.y + middle - 2)
+    line1_co2 = (area.top_left.x + width - 2, area.top_left.y +  middle -2)
+    pygame.draw.line(surface, pygame.Color(0,0,0,255), line1_co1, line1_co2)
+
+    line2_co1 = (area.top_left.x + 2, area.top_left.y + middle)
+    line2_co2 = (area.top_left.x + width - 2, area.top_left.y + middle)
+    pygame.draw.line(surface, pygame.Color(0,0,0,255), line2_co1, line2_co2)
+
+    line3_co1 = (area.top_left.x + 2, area.top_left.y +  middle + 2)
+    line3_co2 = (area.top_left.x + width - 2 , area.top_left.y + middle + 2)
+    pygame.draw.line(surface, pygame.Color(0,0,0,255), line3_co1, line3_co2)
+    
 
 
 class VerticalScrolls(Frame):
