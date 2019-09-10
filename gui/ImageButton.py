@@ -44,3 +44,8 @@ class ImageButton(Image):
     self.setBackgroundDrawer(self.released_background_drawer)
     self.setBorderDrawer(self.released_border_drawer)
 
+  def onMouseOut(self, event):
+    Image.onMouseOut(self, event)
+    self.setImage(self.default_image)
+    self.setBackgroundDrawer(self.released_background_drawer)
+    self.setBorderDrawer(self.released_border_drawer)

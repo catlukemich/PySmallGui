@@ -29,3 +29,5 @@ from .ColsLayout import ColsLayout
 from .LabelFrame import LabelFrame
 from .ScrollFrame import *
 from .WidgetListener import WidgetListener
+from .Radio import RadioButton
+from .Radio import Radio

@@ -87,6 +87,7 @@ class Widget():
     from .Frame import Frame
     if self.parent != None and isinstance(self.parent, Frame):
       self.parent.layoutWidgets()
+      self.parent.resizeToFit()
 
   def getPaddings(self):
     return self.paddings
@@ -96,6 +97,7 @@ class Widget():
     from .Frame import Frame
     if self.parent != None and isinstance(self.parent, Frame):
       self.parent.layoutWidgets()
+      self.parent.resizeToFit()
   
   def getBorders(self):
     return self.borders
@@ -105,6 +107,7 @@ class Widget():
     from .Frame import Frame
     if self.parent != None and isinstance(self.parent, Frame):
       self.parent.layoutWidgets()
+      self.parent.resizeToFit()
 
   def getMargins(self):
     return self.margins

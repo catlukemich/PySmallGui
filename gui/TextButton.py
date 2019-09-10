@@ -18,14 +18,20 @@ class TextButton(Label):
 
 
   def onMouseButtonDown(self, event):
+    Label.onMouseButtonDown(self, event)
     self.setBackgroundDrawer(self.pressed_background_drawer)
     self.setBorderDrawer(self.pressed_border_drawer)
     
 
-  def onMouseButtonUp(self, event): 
+  def onMouseButtonUp(self, event):
+    Label.onMouseButtonUp(self, event)
     self.setBackgroundDrawer(self.released_background_drawer)
     self.setBorderDrawer(self.released_border_drawer)
-  
+
+  def onMouseOut(self, event):
+    self.setBackgroundDrawer(self.released_background_drawer)
+    self.setBorderDrawer(self.released_border_drawer)
+
   def setPressedBackgroundDrawer(self, bg_drawer):  
     self.pressed_background_drawer = bg_drawer
 

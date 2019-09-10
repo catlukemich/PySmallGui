@@ -32,7 +32,6 @@ class Gui(Container, MouseListener, KeyboardListener):
 
     self.focus_widget = self.hover_widget
     self.active_widget = self.hover_widget
-    print "New focus widget: " + str(self.focus_widget)
 
     return False
 
